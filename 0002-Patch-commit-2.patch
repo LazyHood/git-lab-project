@@ -1,0 +1,19 @@
+From d881cadf419e7589b01d74ab287bbde75c97677c Mon Sep 17 00:00:00 2001
+From: lis sergey <framertv@mail.ru>
+Date: Thu, 9 Oct 2025 22:48:46 +0300
+Subject: [PATCH 2/3] Patch commit 2
+
+---
+ patch_file.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/patch_file.txt b/patch_file.txt
+index 5239727..4b61c51 100644
+--- a/patch_file.txt
++++ b/patch_file.txt
+@@ -1 +1,2 @@
+ Patch line 1
++Patch line 2
+-- 
+2.51.0.windows.1
+
