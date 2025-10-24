@@ -1,4 +1,10 @@
 import unittest
+import sys
+import os
+
+# Добавляем текущую директорию в путь поиска модулей
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from calculator import add, subtract, multiply, divide
 
 class TestIntegration(unittest.TestCase):
