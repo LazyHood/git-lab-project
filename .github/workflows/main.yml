@@ -14,10 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          python-version: '3.10'
+          ruby-version: '3.1'
+          bundler-cache: true
       
       - name: Display commit info
         run: |
@@ -25,14 +26,11 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo "Author: ${{ github.actor }}"
       
-      - name: List project files
-        run: ls -la
+      - name: Install dependencies
+        run: bundle install
       
-      - name: Run unit tests
-        run: python test_calculator.py
-      
-      - name: Run integration tests
-        run: python test_integration.py
+      - name: Run tests
+        run: bundle exec rspec calculator_spec.rb --format documentation
       
       - name: Success message
         run: echo "All tests passed!"
