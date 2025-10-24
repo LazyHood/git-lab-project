@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
 
-# Запуск при push и pull request
 on:
   push:
     branches: [ main, master, development, release ]
@@ -8,54 +7,32 @@ on:
     branches: [ main, master ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     
     steps:
-      # Шаг 1: Получение кода из репозитория
       - name: Checkout code
         uses: actions/checkout@v3
       
-      # Шаг 2: Вывод информации о коммите
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
       - name: Display commit info
         run: |
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
           echo "Author: ${{ github.actor }}"
       
-      # Шаг 3: Проверка наличия файлов проекта
       - name: List project files
-        run: |
-          echo "Project files:"
-          ls -la
+        run: ls -la
       
-      # Шаг 4: Установка зависимостей (если есть package.json)
-      - name: Install dependencies
-        run: |
-          if [ -f package.json ]; then
-            npm install
-          else
-            echo "No package.json found, skipping..."
-          fi
+      - name: Run unit tests
+        run: python -m unittest test_calculator.py -v
       
-      # Шаг 5: Запуск тестов (если есть)
-      - name: Run tests
-        run: |
-          if [ -f package.json ] && grep -q '"test"' package.json; then
-            npm test
-          else
-            echo "No tests configured, skipping..."
-          fi
+      - name: Run integration tests
+        run: python -m unittest test_integration.py -v
       
-      # Шаг 6: Сборка проекта (если есть)
-      - name: Build project
-        run: |
-          if [ -f package.json ] && grep -q '"build"' package.json; then
-            npm run build
-          else
-            echo "No build script configured, skipping..."
-          fi
-      
-      # Шаг 7: Успешное завершение
       - name: Success message
-        run: echo "CI/CD pipeline completed successfully!"
+        run: echo "All tests passed!"
